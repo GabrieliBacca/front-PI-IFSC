@@ -21,29 +21,29 @@ const Home = () => {
     });
   };
 
-  const carouselItems = [
-  {
-    id: 1,
-    title: "Elegância em Rosa",
-    subtitle: "Descubra a delicadeza da nossa coleção",
-    description: "Moda que abraça sua feminilidade",
-    image: carouselImage1
-  },
-  {
-    id: 2,
-    title: "Viva a Tendência Rosa",
-    subtitle: "Peças que realçam sua beleza natural",
-    description: "Conforto e estilo para todos os momentos",
-    image: carouselImage2
-  },
-  {
-    id: 3,
-    title: "Detalhes que Encantam",
-    subtitle: "A qualidade que você merece em tons de rosa",
-    description: "Toque suave e acabamento impecável",
-    image: carouselImage3
-  }
-];
+//   const carouselItems = [
+//   {
+//     id: 1,
+//     title: "Elegância em Rosa",
+//     subtitle: "Descubra a delicadeza da nossa coleção",
+//     description: "Moda que abraça sua feminilidade",
+//     image: carouselImage1
+//   },
+//   {
+//     id: 2,
+//     title: "Viva a Tendência Rosa",
+//     subtitle: "Peças que realçam sua beleza natural",
+//     description: "Conforto e estilo para todos os momentos",
+//     image: carouselImage2
+//   },
+//   {
+//     id: 3,
+//     title: "Detalhes que Encantam",
+//     subtitle: "A qualidade que você merece em tons de rosa",
+//     description: "Toque suave e acabamento impecável",
+//     image: carouselImage3
+//   }
+// ];
 
 
   const categories = [
@@ -127,7 +127,8 @@ const Home = () => {
         </Badge>
       </Box>
 
-      {/* Main Carousel */}
+
+      {/* Main Carousel 
       <Box className="main-carousel">
         <Carousel autoplay dots={{ className: 'custom-dots' }}>
           {carouselItems.map((item) => (
@@ -152,13 +153,13 @@ const Home = () => {
                   </Button>
                 </Box>
                <Box className="slide-image">
-  <img src={item.image} alt={item.title} className="carousel-image" />
+  <img src={item.image} alt={item.title} className="carousel-image" /> 
 </Box>
               </Box>
             </div>
           ))}
         </Carousel>
-      </Box>
+      </Box> */}
 
       {/* Categories Grid */}
       <Box className="categories-section">

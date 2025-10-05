@@ -1,0 +1,214 @@
+/* Login Component Styles - Rosa Claro Theme */
+
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #f48fb1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.login-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(255, 105, 180, 0.2);
+  padding: 3rem;
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid rgba(255, 105, 180, 0.1);
+}
+
+/* Header Styles */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-title {
+  font-size: 2.5rem !important;
+  font-weight: 300 !important;
+  color: #ff69b4 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.title-highlight {
+  font-weight: 700;
+  color: #e91e63;
+}
+
+.login-subtitle {
+  color: #ad7a99 !important;
+  font-size: 1rem !important;
+}
+
+/* Form Styles */
+.login-form-container {
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  color: #ff69b4 !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+}
+
+.form-input {
+  padding: 12px !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.error-alert {
+  border-radius: 12px !important;
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  border: 1px solid rgba(244, 67, 54, 0.3) !important;
+  color: #d32f2f !important;
+}
+
+.login-button {
+  width: 100% !important;
+  margin-top: 1rem !important;
+  transition: all 0.3s ease !important;
+  text-transform: none !important;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3) !important;
+}
+
+/* Links Styles */
+.login-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.forgot-password-link {
+  color: #ff69b4;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  color: #e91e63;
+  text-decoration: underline;
+}
+
+.signup-text {
+  color: #ad7a99 !important;
+  text-align: center;
+}
+
+.signup-link {
+  color: #ff69b4;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #e91e63;
+  text-decoration: underline;
+}
+
+/* Footer Styles */
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 105, 180, 0.1);
+}
+
+.back-home-link {
+  color: #ad7a99;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-home-link:hover {
+  color: #ff69b4;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-wrapper {
+    padding: 2rem;
+    max-width: 100%;
+  }
+
+  .login-title {
+    font-size: 2rem !important;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.8rem !important;
+  }
+
+  .form-group {
+    gap: 0.3rem;
+  }
+
+  .login-form {
+    gap: 1.2rem;
+  }
+}
+
+/* Sweet Alert Customization */
+.swal2-popup {
+  border-radius: 20px !important;
+  border: 2px solid #ff69b4 !important;
+}
+
+.swal2-title {
+  color: #ff69b4 !important;
+}
+
+.swal2-confirm {
+  background-color: #ff69b4 !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1.5rem !important;
+}
+
+.swal2-confirm:hover {
+  background-color: #e91e63 !important;
+}
+

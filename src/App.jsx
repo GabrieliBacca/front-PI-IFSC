@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CssVarsProvider } from '@mui/joy/styles';
+import { CssVarsProvider } from '@mui/joy';
 import { ConfigProvider } from 'antd';
-import Home from './assets/Home';
-import "antd/dist/reset.css"; // (v5+ usa reset.css)
+import Home from './assets/Home.jsx';
+import Login from './assets/Login.jsx';
+import Cadastro from './assets/Cadastro.jsx';
+import EsqueciSenha from './assets/EsqueciSenha.jsx';
 
-
-// Configuracao do tema para Ant Design que criei no css
+// Configuração do tema para Ant Design
 const antdTheme = {
   token: {
     colorPrimary: '#ff69b4',
@@ -25,6 +26,9 @@ export const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path={"/"} element={<Home />} />
+            <Route path={"/login"} element={<Login />} />
+            <Route path={"/cadastro"} element={<Cadastro />} />
+            <Route path={"/esqueci-senha"} element={<EsqueciSenha />} />
             {/* <Route path={"/effect"} element={<ComponentEffect />} /> */}
           </Routes>
         </BrowserRouter>
@@ -32,3 +36,4 @@ export const App = () => {
     </ConfigProvider>
   );
 };
+
