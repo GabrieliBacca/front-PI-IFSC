@@ -1,6 +1,6 @@
 # Doce Dondocas - Frontend
 
-Este é o projeto frontend para a aplicação Doce Dondocas, desenvolvido em React com Vite. Ele integra diversas bibliotecas modernas para uma experiência de usuário rica e responsiva, seguindo um tema visual rosa claro inspirado na Salon Line.
+Este é o projeto frontend para a aplicação Doce Dondocas, desenvolvido em React com Vite.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -10,8 +10,6 @@ Este é o projeto frontend para a aplicação Doce Dondocas, desenvolvido em Rea
 -   **Ant Design:** Biblioteca de componentes React para interfaces de usuário empresariais.
 -   **Sweet Alert 2:** Biblioteca para alertas e pop-ups customizáveis.
 -   **React Router DOM:** Para gerenciamento de rotas na aplicação.
--   **Axios:** Cliente HTTP baseado em Promises para fazer requisições ao backend.
--   **CSS:** Estilização modular e responsiva.
 
 ## 📁 Estrutura do Projeto
 
@@ -45,21 +43,19 @@ front/
 ### Pré-requisitos
 
 -   Node.js (versão 14 ou superior)
--   npm ou Yarn
+-   npm 
 
 ### Instalação
 
 1.  **Clone o repositório:**
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
+    git clone 
     cd front
     ```
 
 2.  **Instale as dependências:**
     ```bash
     npm install
-    # ou
-    yarn install
     ```
 
 ### Rodando o Frontend
@@ -68,8 +64,6 @@ Para iniciar o servidor de desenvolvimento do React:
 
 ```bash
 npm run dev
-# ou
-yarn dev
 ```
 
 O aplicativo estará disponível em `http://localhost:5173` (ou outra porta, se 5173 estiver em uso).
@@ -112,7 +106,6 @@ O serviço `src/services/api.js` está configurado para interagir com os seguint
 
 ## 🎨 Estilo e Customização
 
-O projeto segue um tema visual rosa claro, inspirado na Salon Line. As customizações incluem:
 
 -   **Cores:** Predominância de tons de rosa (`#ff69b4`, `#fce4ec`, etc.).
 -   **Componentes:** Utilização de MUI Joy e Ant Design com temas personalizados para se adequarem à paleta de cores.
@@ -167,7 +160,7 @@ gerenciamento-doce-dondocas/
 
 1.  **Clone o repositório:**
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO_BACKEND>
+    git clone 
     cd gerenciamento-doce-dondocas
     ```
 
@@ -206,5 +199,3 @@ Os principais endpoints expostos pelo `UsuarioController` são:
 -   `GET /usuario/lista`: Lista todos os usuários (requer autenticação).
 
 ---
-
-**Nota:** Este README foi gerado automaticamente e pode precisar de ajustes finos para refletir com precisão todos os detalhes do seu projeto. Certifique-se de preencher os `<URL_DO_SEU_REPOSITORIO>` com os links corretos.
