@@ -221,3 +221,36 @@ export const usuarioService = {
   }
 };
 
+
+// Cliente 
+export const clienteService = {
+  cadastro: async (clienteData) => {
+    console.log('Tentativa de cadastro de cliente:', clienteData.nome);
+    // Implementação real da chamada de API para o backend
+    // Exemplo:
+    /*
+    const response = await fetch(`${API_BASE_URL}/clientes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(clienteData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return { success: true, message: 'Cliente cadastrado com sucesso.', data };
+    } else {
+      return { success: false, message: data.message || 'Erro ao cadastrar cliente.' };
+    }
+    */
+
+    // Simulação de sucesso (manter para teste)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (clienteData.cpf === '11111111111') {
+        return { success: false, message: 'CPF de cliente já cadastrado.' };
+    }
+    return { success: true, message: 'Cliente cadastrado com sucesso.' };
+  }
+};
