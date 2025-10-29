@@ -6,6 +6,7 @@ import Home from './assets/Home.jsx';
 import Login from './assets/Login.jsx';
 import Cadastro from './assets/Cadastro.jsx';
 import EsqueciSenha from './assets/EsqueciSenha.jsx';
+import CadastroCliente from './assets/CadastroCliente';
 
 // Configuração do tema para Ant Design
 const antdTheme = {
@@ -29,6 +30,8 @@ export const App = () => {
             <Route path={"/login"} element={<Login />} />
             <Route path={"/cadastro"} element={<Cadastro />} />
             <Route path={"/esqueci-senha"} element={<EsqueciSenha />} />
+            <Route path="/cadastro-cliente" element={<CadastroCliente />} />   
+
             {/* <Route path={"/effect"} element={<ComponentEffect />} /> */}
           </Routes>
         </BrowserRouter>
