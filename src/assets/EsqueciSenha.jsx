@@ -30,10 +30,10 @@ const EsqueciSenha = () => {
 
     try {
       const result = await usuarioService.recuperarSenha(cpf);
-      
+
       if (result.success) {
         setSucesso('Nova senha enviada para seu email cadastrado!');
-        
+
         Swal.fire({
           title: 'Email Enviado!',
           text: 'Verifique sua caixa de entrada. Uma nova senha foi enviada para seu email.',
@@ -73,7 +73,7 @@ const EsqueciSenha = () => {
       <Box className="esqueci-senha-wrapper">
         <Box className="esqueci-senha-header">
           <Typography level="h1" className="esqueci-senha-title">
-            Recuperar<span className="title-highlight">Senha</span>
+            Recuperar<span className="title-highlight"> Senha</span>
           </Typography>
           <Typography level="body-lg" className="esqueci-senha-subtitle">
             Digite seu CPF para receber uma nova senha por email
@@ -143,7 +143,7 @@ const EsqueciSenha = () => {
             <Link to="/login" className="back-login-link">
               ← Voltar ao Login
             </Link>
-            
+
             <Typography level="body-sm" className="signup-text">
               Não tem uma conta?{' '}
               <Link to="/cadastro" className="signup-link">

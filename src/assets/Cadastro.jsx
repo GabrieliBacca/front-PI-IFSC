@@ -57,7 +57,7 @@ const Cadastro = () => {
 
     try {
       const result = await usuarioService.cadastro(formData);
-      
+
       if (result.success) {
         Swal.fire({
           title: 'Cadastro realizado!',
@@ -98,7 +98,7 @@ const Cadastro = () => {
       <Box className="cadastro-wrapper">
         <Box className="cadastro-header">
           <Typography level="h1" className="cadastro-title">
-            Criar<span className="title-highlight">Conta</span>
+            Criar<span className="title-highlight"> Conta</span>
           </Typography>
           <Typography level="body-lg" className="cadastro-subtitle">
             Junte-se à família Doce Dondocas
@@ -108,7 +108,7 @@ const Cadastro = () => {
         <Box className="cadastro-form-container">
           <form onSubmit={handleSubmit} className="cadastro-form">
             <input type="hidden" name="id" value={formData.id} />
-            
+
             <Box className="form-group">
               <Typography level="body-sm" className="form-label">
                 CPF *

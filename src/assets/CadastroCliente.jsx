@@ -28,8 +28,8 @@ const CadastroCliente = () => {
   };
 
   const validateForm = () => {
-    if (!formData.nome || !formData.cpf || !formData.telefone || 
-        !formData.cidade || !formData.bairro || !formData.rua || !formData.nCasa) {
+    if (!formData.nome || !formData.cpf || !formData.telefone ||
+      !formData.cidade || !formData.bairro || !formData.rua || !formData.nCasa) {
       setErro('Todos os campos são obrigatórios.');
       return false;
     }
@@ -62,8 +62,8 @@ const CadastroCliente = () => {
     setLoading(true);
 
     try {
-            const result = await clienteService.cadastro(formData);
-      
+      const result = await clienteService.cadastro(formData);
+
       if (result.success) {
         Swal.fire({
           title: 'Cliente cadastrado!',
@@ -72,17 +72,17 @@ const CadastroCliente = () => {
           confirmButtonText: 'OK',
           confirmButtonColor: '#ff69b4'
         }).then(() => {
-        // Limpar formulário ou navegar para outra página
-        setFormData({
-          nome: '',
-          cpf: '',
-          telefone: '',
-          cidade: '',
-          bairro: '',
-          rua: '',
-          nCasa: ''
+          // Limpar formulário ou navegar para outra página
+          setFormData({
+            nome: '',
+            cpf: '',
+            telefone: '',
+            cidade: '',
+            bairro: '',
+            rua: '',
+            nCasa: ''
+          });
         });
-      });
       } else {
         setErro(result.message);
         Swal.fire({
@@ -113,7 +113,7 @@ const CadastroCliente = () => {
       <Box className="cadastro-cliente-wrapper">
         <Box className="cadastro-cliente-header">
           <Typography level="h1" className="cadastro-cliente-title">
-            Cadastro de<span className="title-highlight">Cliente</span>
+            Cadastro de<span className="title-highlight"> Cliente</span>
           </Typography>
           <Typography level="body-lg" className="cadastro-cliente-subtitle">
             Preencha os dados do cliente
@@ -122,7 +122,7 @@ const CadastroCliente = () => {
 
         <Box className="cadastro-cliente-form-container">
           <form onSubmit={handleSubmit} className="cadastro-cliente-form">
-            
+
             {/* Nome */}
             <Box className="form-group">
               <Typography level="body-sm" className="form-label">

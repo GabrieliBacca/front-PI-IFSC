@@ -207,7 +207,7 @@ export const usuarioService = {
       removeAuthToken();  // Remove o token do frontend
       // como mo back não tem um endpoint de logout que invalide o token no servidor, apenas remove o cookie
       // Se houver um endpoint de logout no backend que invalide o token, ele vai ser chamado aqui
-     // await api.post('/usuario/logout'); // Chama o endpoint de logout no backend
+      // await api.post('/usuario/logout'); // Chama o endpoint de logout no backend
       return {
         success: true,
         message: 'Logout realizado com sucesso!'
@@ -249,8 +249,69 @@ export const clienteService = {
     // Simulação de sucesso (manter para teste)
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (clienteData.cpf === '11111111111') {
-        return { success: false, message: 'CPF de cliente já cadastrado.' };
+      return { success: false, message: 'CPF de cliente já cadastrado.' };
     }
     return { success: true, message: 'Cliente cadastrado com sucesso.' };
+  }
+};
+
+
+export const produtoService = {
+  // Cadastrar produto
+  cadastrar: async (produtoData) => {
+    try {
+      const response = await api.post('/produto/cadastrar', produtoData);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produto cadastrado com sucesso!'
+      };
+    } catch (error) {
+      console.error('Erro ao cadastrar produto:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar produto. Verifique os dados.'
+      };
+    }
+  },
+
+  // Cadastrar categoria
+  cadastrarCategoria: async (nomeCategoria) => {
+    try {
+      const response = await api.post('/produto/cadastrarCategoria', {
+        categoria: nomeCategoria
+      });
+      return {
+        success: true,
+        data: response.data,
+        message: 'Categoria cadastrada com sucesso!'
+      };
+    } catch (error) {
+      console.error('Erro ao cadastrar categoria:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar categoria.'
+      };
+    }
+  },
+
+  // Cadastrar marca
+  cadastrarMarca: async (nomeMarca) => {
+    try {
+      const response = await api.post('/produto/cadastrarMarca', {
+        marca: nomeMarca
+      });
+      return {
+        success: true,
+        data: response.data,
+        message: 'Marca cadastrada com sucesso!'
+      };
+    } catch (error) {
+      console.error('Erro ao cadastrar marca:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar marca.'
+      };
+    }
   }
 };

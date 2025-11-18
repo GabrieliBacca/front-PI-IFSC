@@ -29,7 +29,7 @@ const Login = () => {
 
     try {
       const result = await usuarioService.login(formData.cpf, formData.senha);
-      
+
       if (result.success) {
         Swal.fire({
           title: 'Login realizado!',
@@ -70,7 +70,7 @@ const Login = () => {
       <Box className="login-wrapper">
         <Box className="login-header">
           <Typography level="h1" className="login-title">
-            Doce<span className="title-highlight">Dondocas</span>
+            Doce<span className="title-highlight"> Dondocas</span>
           </Typography>
           <Typography level="body-lg" className="login-subtitle">
             Faça login para acessar sua conta
@@ -160,7 +160,7 @@ const Login = () => {
             <Link to="/esqueci-senha" className="forgot-password-link">
               Esqueci minha senha
             </Link>
-            
+
             <Typography level="body-sm" className="signup-text">
               Não tem uma conta?{' '}
               <Link to="/cadastro" className="signup-link">
