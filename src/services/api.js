@@ -88,7 +88,7 @@ export const usuarioService = {
 
   cadastro: async (dadosUsuario) => {
     try {
-      const response = await api.post('/usuario/cadastro', dadosUsuario);
+  const response = await api.post('/usuario', dadosUsuario);
       return {
         success: true,
         data: response.data,

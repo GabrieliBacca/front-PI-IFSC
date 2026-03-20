@@ -56,32 +56,44 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!formData.titulo || !formData.valor) {
-      alert('Por favor, preencha todos os campos obrigatórios');
-      return;
-    }
+  e.preventDefault();
+  
+  if (!formData.titulo || !formData.valor) {
+    alert('Por favor, preencha todos os campos obrigatórios');
+    return;
+  }
 
-    let result;
-    if (editingId) {
-      result = await produtoService.editar({
-        id: editingId,
-        ...formData
-      });
-    } else {
-      result = await produtoService.cadastrar(formData);
-    }
+  // Encontrar a marca e categoria completas
+  const marcaSelecionada = marcas.find(m => m.id === Number(formData.marca));
+  const categoriaSelecionada = categorias.find(c => c.id === Number(formData.categoria));
 
-    if (result.success) {
-      setFormData({ titulo: '', valor: '', marca: '', categoria: '' });
-      setEditingId(null);
-      setShowForm(false);
-      loadProdutos();
-    } else {
-      alert(result.message);
-    }
+  const payload = {
+    titulo: formData.titulo,
+    valor: parseFloat(formData.valor),
+    marca: marcaSelecionada ? [marcaSelecionada] : [],
+    categoria: categoriaSelecionada ? [categoriaSelecionada] : []
   };
+
+  let result;
+  if (editingId) {
+    result = await produtoService.editar({
+      id: editingId,
+      ...payload
+    });
+  } else {
+    result = await produtoService.cadastrar(payload);
+  }
+
+  if (result && result.success) {
+    setFormData({ titulo: '', valor: '', marca: '', categoria: '' });
+    setEditingId(null);
+    setShowForm(false);
+    loadProdutos();
+  } else {
+    alert(result?.message || "Erro ao cadastrar produto");
+  }
+};
+
 
   const handleEdit = (produto) => {
     setFormData({
