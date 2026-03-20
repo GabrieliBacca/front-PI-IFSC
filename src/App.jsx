@@ -1,14 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CssVarsProvider } from '@mui/joy';
-import { ConfigProvider } from 'antd';
-import Home from './assets/Home.jsx';
-import Login from './assets/Login.jsx';
-import Cadastro from './assets/Cadastro.jsx';
-import EsqueciSenha from './assets/EsqueciSenha.jsx';
-import CadastroCliente from './assets/CadastroCliente';
-=======
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { getAuthToken, removeAuthToken } from './services/api';
@@ -38,7 +27,6 @@ function App() {
     }
     setLoading(false);
   }, []);
->>>>>>> Stashed changes
 
   const handleLoginSuccess = (token) => {
     setIsAuthenticated(true);
@@ -71,23 +59,6 @@ function App() {
   }
 
   return (
-<<<<<<< Updated upstream
-    <ConfigProvider theme={antdTheme}>
-      <CssVarsProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path={"/"} element={<Home />} />
-            <Route path={"/login"} element={<Login />} />
-            <Route path={"/cadastro"} element={<Cadastro />} />
-            <Route path={"/esqueci-senha"} element={<EsqueciSenha />} />
-            <Route path="/cadastro-cliente" element={<CadastroCliente />} />   
-
-            {/* <Route path={"/effect"} element={<ComponentEffect />} /> */}
-          </Routes>
-        </BrowserRouter>
-      </CssVarsProvider>
-    </ConfigProvider>
-=======
     <Router>
       <Routes>
         <Route
@@ -183,7 +154,6 @@ function App() {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
->>>>>>> Stashed changes
   );
 }
 
