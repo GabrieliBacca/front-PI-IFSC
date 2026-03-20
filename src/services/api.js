@@ -88,7 +88,7 @@ export const usuarioService = {
 
   cadastro: async (dadosUsuario) => {
     try {
-    const response = await api.post('/usuario', dadosUsuario);
+      const response = await api.post('/usuario/cadastro', dadosUsuario);
       return {
         success: true,
         data: response.data,
@@ -104,14 +104,7 @@ export const usuarioService = {
 
   logout: async () => {
     try {
-<<<<<<< Updated upstream
-      removeAuthToken();  // Remove o token do frontend
-      // como mo back não tem um endpoint de logout que invalide o token no servidor, apenas remove o cookie
-      // Se houver um endpoint de logout no backend que invalide o token, ele vai ser chamado aqui
-     // await api.post('/usuario/logout'); // Chama o endpoint de logout no backend
-=======
       removeAuthToken();
->>>>>>> Stashed changes
       return {
         success: true,
         message: 'Logout realizado com sucesso!'
@@ -177,12 +170,6 @@ export const clienteService = {
     }
   },
 
-<<<<<<< Updated upstream
-    // Simulação de sucesso (manter para teste)
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    if (clienteData.cpf === '11111111111') {
-        return { success: false, message: 'CPF de cliente já cadastrado.' };
-=======
   editar: async (clienteData) => {
     try {
       const response = await api.put('/cliente', clienteData);
@@ -212,12 +199,8 @@ export const clienteService = {
         success: false,
         message: error.response?.data?.message || 'Erro ao deletar cliente.'
       };
->>>>>>> Stashed changes
     }
   }
-<<<<<<< Updated upstream
-};
-=======
 };
 
 // ============================================
@@ -375,4 +358,3 @@ export const produtoService = {
 };
 
 export default api;
->>>>>>> Stashed changes
