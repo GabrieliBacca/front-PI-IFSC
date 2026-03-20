@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuração base da API
-const API_BASE_URL = 'http://localhost:8080'; // Ajuste para a porta do seu backend Spring Boot
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -17,7 +17,6 @@ let authToken = null;
 // Função para definir o token
 export const setAuthToken = (token) => {
   authToken = token;
-  // Opcional: Salvar o token no localStorage para persistência entre sessões
   localStorage.setItem('authToken', token);
 };
 
@@ -35,14 +34,13 @@ export const removeAuthToken = () => {
   localStorage.removeItem('authToken');
 };
 
-// Interceptor para incluir o token JWT em todas as requisições (exceto login)
+// Interceptor para incluir o token JWT em todas as requisições
 api.interceptors.request.use(
   (config) => {
-    // Incluir cookies nas requisições
     config.withCredentials = true;
 
     const token = getAuthToken();
-    if (token && config.url !== '/usuario/logar') { // Não enviar token para a rota de login
+    if (token && config.url !== '/usuario/logar') {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -59,23 +57,21 @@ api.interceptors.response.use(
   },
   (error) => {
     console.error('Erro na API:', error);
-    // Se for um erro de autenticação (401 ou 403), remover o token
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
       removeAuthToken();
-      // Opcional: Redirecionar para a página de login
-      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-// Serviços de usuário
+// ============================================
+// SERVIÇOS DE USUÁRIO
+// ============================================
 export const usuarioService = {
-  // Login do usuário
   login: async (cpf, senha) => {
     try {
       const response = await api.post('/usuario/logar', { cpf, senha });
-      const token = response.data; // O backend retorna o token diretamente
+      const token = response.data;
       setAuthToken(token);
       return {
         success: true,
@@ -90,10 +86,9 @@ export const usuarioService = {
     }
   },
 
-  // Cadastro de usuário
   cadastro: async (dadosUsuario) => {
     try {
-      const response = await api.post('/usuario/cadastro', dadosUsuario); // Envia JSON
+    const response = await api.post('/usuario', dadosUsuario);
       return {
         success: true,
         data: response.data,
@@ -107,107 +102,16 @@ export const usuarioService = {
     }
   },
 
-  // Recuperação de senha
-  recuperarSenha: async (cpf) => {
-    try {
-      // O backend espera application/x-www-form-urlencoded para recuperar-senha
-      const formData = new URLSearchParams();
-      formData.append('cpf', cpf);
-
-      const response = await api.post('/usuario/recuperar-senha', formData, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-
-      return {
-        success: true,
-        data: response.data,
-        message: 'Nova senha enviada para seu email!'
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'CPF não encontrado ou erro no servidor.'
-      };
-    }
-  },
-
-  // Listar todos os usuários
-  listarUsuarios: async () => {
-    try {
-      const response = await api.post('/usuario/usuarios'); // Backend usa POST para listar
-      return {
-        success: true,
-        data: response.data,
-        message: 'Usuários carregados com sucesso!'
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Erro ao carregar usuários. Faça login novamente.'
-      };
-    }
-  },
-
-  // Obter usuário por ID
-  getUsuarioById: async (id) => {
-    try {
-      const response = await api.post(`/usuario/usuarios/${id}`); // Backend usa POST para buscar por ID
-      return {
-        success: true,
-        data: response.data,
-        message: 'Usuário carregado com sucesso!'
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Erro ao carregar usuário. Faça login novamente.'
-      };
-    }
-  },
-
-  // Editar usuário
-  editarUsuario: async (dadosUsuario) => {
-    try {
-      const response = await api.post('/usuario/editar', dadosUsuario); // Backend usa POST para editar
-      return {
-        success: true,
-        data: response.data,
-        message: 'Usuário atualizado com sucesso!'
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Erro ao atualizar usuário. Verifique os dados.'
-      };
-    }
-  },
-
-  // Deletar usuário
-  deletarUsuario: async (id) => {
-    try {
-      const response = await api.post(`/usuario/delete/${id}`); // Backend usa POST para deletar
-      return {
-        success: true,
-        data: response.data,
-        message: 'Usuário deletado com sucesso!'
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.response?.data?.message || 'Erro ao deletar usuário.'
-      };
-    }
-  },
-
-  // Logout
   logout: async () => {
     try {
+<<<<<<< Updated upstream
       removeAuthToken();  // Remove o token do frontend
       // como mo back não tem um endpoint de logout que invalide o token no servidor, apenas remove o cookie
       // Se houver um endpoint de logout no backend que invalide o token, ele vai ser chamado aqui
      // await api.post('/usuario/logout'); // Chama o endpoint de logout no backend
+=======
+      removeAuthToken();
+>>>>>>> Stashed changes
       return {
         success: true,
         message: 'Logout realizado com sucesso!'
@@ -221,36 +125,254 @@ export const usuarioService = {
   }
 };
 
-
-// Cliente 
+// ============================================
+// SERVIÇOS DE CLIENTE
+// ============================================
 export const clienteService = {
-  cadastro: async (clienteData) => {
-    console.log('Tentativa de cadastro de cliente:', clienteData.nome);
-    // Implementação real da chamada de API para o backend
-    // Exemplo:
-    /*
-    const response = await fetch(`${API_BASE_URL}/clientes`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(clienteData),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      return { success: true, message: 'Cliente cadastrado com sucesso.', data };
-    } else {
-      return { success: false, message: data.message || 'Erro ao cadastrar cliente.' };
+  listar: async () => {
+    try {
+      const response = await api.get('/cliente');
+      return {
+        success: true,
+        data: response.data,
+        message: 'Clientes carregados com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar clientes.'
+      };
     }
-    */
+  },
 
+  buscarPorId: async (id) => {
+    try {
+      const response = await api.get(`/cliente/${id}`);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Cliente carregado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar cliente.'
+      };
+    }
+  },
+
+  cadastro: async (clienteData) => {
+    try {
+      const response = await api.post('/cliente', clienteData);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Cliente cadastrado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar cliente.'
+      };
+    }
+  },
+
+<<<<<<< Updated upstream
     // Simulação de sucesso (manter para teste)
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (clienteData.cpf === '11111111111') {
         return { success: false, message: 'CPF de cliente já cadastrado.' };
+=======
+  editar: async (clienteData) => {
+    try {
+      const response = await api.put('/cliente', clienteData);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Cliente atualizado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao atualizar cliente.'
+      };
     }
-    return { success: true, message: 'Cliente cadastrado com sucesso.' };
+  },
+
+  deletar: async (id) => {
+    try {
+      const response = await api.delete(`/cliente/${id}`);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Cliente deletado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao deletar cliente.'
+      };
+>>>>>>> Stashed changes
+    }
+  }
+<<<<<<< Updated upstream
+};
+=======
+};
+
+// ============================================
+// SERVIÇOS DE PRODUTO
+// ============================================
+export const produtoService = {
+  listar: async () => {
+    try {
+      const response = await api.get('/produto');
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produtos carregados com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar produtos.'
+      };
+    }
+  },
+
+  buscarPorId: async (id) => {
+    try {
+      const response = await api.get(`/produto/${id}`);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produto carregado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar produto.'
+      };
+    }
+  },
+
+  cadastrar: async (produtoData) => {
+    try {
+      const response = await api.post('/produto', produtoData);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produto cadastrado com sucesso!'
+      };
+    } catch (error) {
+      console.error('Erro ao cadastrar produto:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar produto.'
+      };
+    }
+  },
+
+  editar: async (produtoData) => {
+    try {
+      const response = await api.put('/produto', produtoData);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produto atualizado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao atualizar produto.'
+      };
+    }
+  },
+
+  deletar: async (id) => {
+    try {
+      const response = await api.delete(`/produto/${id}`);
+      return {
+        success: true,
+        data: response.data,
+        message: 'Produto deletado com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao deletar produto.'
+      };
+    }
+  },
+
+  listarCategorias: async () => {
+    try {
+      const response = await api.get('/produto/categoria');
+      return {
+        success: true,
+        data: response.data,
+        message: 'Categorias carregadas com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar categorias.'
+      };
+    }
+  },
+
+  cadastrarCategoria: async (nomeCategoria) => {
+    try {
+      const response = await api.post('/produto/categoria', {
+        categoria: nomeCategoria
+      });
+      return {
+        success: true,
+        data: response.data,
+        message: 'Categoria cadastrada com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar categoria.'
+      };
+    }
+  },
+
+  listarMarcas: async () => {
+    try {
+      const response = await api.get('/produto/marca');
+      return {
+        success: true,
+        data: response.data,
+        message: 'Marcas carregadas com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao carregar marcas.'
+      };
+    }
+  },
+
+  cadastrarMarca: async (nomeMarca) => {
+    try {
+      const response = await api.post('/produto/marca', {
+        marca: nomeMarca
+      });
+      return {
+        success: true,
+        data: response.data,
+        message: 'Marca cadastrada com sucesso!'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Erro ao cadastrar marca.'
+      };
+    }
   }
 };
+
+export default api;
+>>>>>>> Stashed changes
