@@ -37,9 +37,17 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+     let newValue = value;
+
+      if (name === 'cpf') {
+        newValue = value.replace(/\D/g, '');
+        newValue = newValue.slice(0, 11);
+      }
+
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: newValue
     }));
   };
 
@@ -181,6 +189,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   placeholder="(00) 00000-0000"
                   value={formData.telefone}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -193,6 +202,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   placeholder="Cidade"
                   value={formData.cidade}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -205,6 +215,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   placeholder="Bairro"
                   value={formData.bairro}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -217,6 +228,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   placeholder="Rua"
                   value={formData.rua}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -229,6 +241,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   placeholder="Número"
                   value={formData.numeroCasa}
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>

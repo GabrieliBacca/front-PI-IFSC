@@ -68,10 +68,10 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
   const categoriaSelecionada = categorias.find(c => c.id === Number(formData.categoria));
 
   const payload = {
-    titulo: formData.titulo,
-    valor: parseFloat(formData.valor),
-    marca: marcaSelecionada ? [marcaSelecionada] : [],
-    categoria: categoriaSelecionada ? [categoriaSelecionada] : []
+      titulo: formData.titulo,
+      valor: parseFloat(formData.valor),
+      marca: marcaSelecionada ,
+      categoria: categoriaSelecionada
   };
 
   let result;
