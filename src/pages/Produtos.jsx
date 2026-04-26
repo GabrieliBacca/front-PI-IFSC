@@ -39,7 +39,7 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
     try {
       const marcasResult = await produtoService.listarMarcas();
       const categoriasResult = await produtoService.listarCategorias();
-      
+
       if (marcasResult.success) setMarcas(marcasResult.data || []);
       if (categoriasResult.success) setCategorias(categoriasResult.data || []);
     } catch (error) {
@@ -56,43 +56,43 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  if (!formData.titulo || !formData.valor) {
-    alert('Por favor, preencha todos os campos obrigatórios');
-    return;
-  }
+    e.preventDefault();
 
-  // Encontrar a marca e categoria completas
-  const marcaSelecionada = marcas.find(m => m.id === Number(formData.marca));
-  const categoriaSelecionada = categorias.find(c => c.id === Number(formData.categoria));
+    if (!formData.titulo || !formData.valor) {
+      alert('Por favor, preencha todos os campos obrigatórios');
+      return;
+    }
 
-  const payload = {
+    // Encontrar a marca e categoria completas
+    const marcaSelecionada = marcas.find(m => m.id === Number(formData.marca));
+    const categoriaSelecionada = categorias.find(c => c.id === Number(formData.categoria));
+
+    const payload = {
       titulo: formData.titulo,
       valor: parseFloat(formData.valor),
-      marca: marcaSelecionada ,
+      marca: marcaSelecionada,
       categoria: categoriaSelecionada
+    };
+
+    let result;
+    if (editingId) {
+      result = await produtoService.editar({
+        id: editingId,
+        ...payload
+      });
+    } else {
+      result = await produtoService.cadastrar(payload);
+    }
+
+    if (result && result.success) {
+      setFormData({ titulo: '', valor: '', marca: '', categoria: '' });
+      setEditingId(null);
+      setShowForm(false);
+      loadProdutos();
+    } else {
+      alert(result?.message || "Erro ao cadastrar produto");
+    }
   };
-
-  let result;
-  if (editingId) {
-    result = await produtoService.editar({
-      id: editingId,
-      ...payload
-    });
-  } else {
-    result = await produtoService.cadastrar(payload);
-  }
-
-  if (result && result.success) {
-    setFormData({ titulo: '', valor: '', marca: '', categoria: '' });
-    setEditingId(null);
-    setShowForm(false);
-    loadProdutos();
-  } else {
-    alert(result?.message || "Erro ao cadastrar produto");
-  }
-};
 
 
   const handleEdit = (produto) => {
@@ -121,6 +121,22 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
     setFormData({ titulo: '', valor: '', marca: '', categoria: '' });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const handleToggleStatus = async (produto) => {
+
+    const novoStatus = !produto.ativo;
+
+    if (window.confirm('Deseja alterar o status deste produto?')) {
+
+      const result = await produtoService.ativarDesativar(produto.id, novoStatus);
+
+      if (result.success) {
+        loadProdutos();
+      } else {
+        alert(result.message);
+      }
+    }
   };
 
   return (
@@ -253,18 +269,33 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
                   <th>Valor</th>
                   <th>Marca</th>
                   <th>Categoria</th>
+                  <th>Status</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {produtos.map(produto => (
-                  <tr key={produto.id}>
+                  <tr
+                    key={produto.id}
+                    style={{
+                      opacity: produto.ativo ? 1 : 0.5,
+                      backgroundColor: produto.ativo ? 'transparent' : '#f2f2f2'
+                    }}
+                  >
                     <td>{produto.titulo}</td>
                     <td>R$ {parseFloat(produto.valor).toFixed(2)}</td>
                     <td>{produto.marca?.marca || '-'}</td>
                     <td>{produto.categoria?.categoria || '-'}</td>
+                    <td>{produto.ativo ? 'Ativo' : 'Inativo'}</td>
+
                     <td>
                       <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                          onClick={() => handleToggleStatus(produto)}
+                          className={`btn btn-sm ${produto.ativo ? 'btn-warning' : 'btn-success'}`}
+                        >
+                          {produto.ativo ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
                         <button
                           onClick={() => handleEdit(produto)}
                           className="btn btn-secondary btn-sm"
