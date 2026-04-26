@@ -37,7 +37,6 @@ export const removeAuthToken = () => {
 // Interceptor para incluir o token JWT em todas as requisições
 api.interceptors.request.use(
   (config) => {
-    config.withCredentials = true;
 
     const token = getAuthToken();
     if (token && config.url !== '/usuario/logar') {
@@ -63,6 +62,45 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+
+// ============================================
+// SERVIÇOS DE VENDA
+// ============================================
+export const vendaService = {
+
+  // 🔹 LISTAR TODAS
+  listar: async () => {
+    const response = await api.get('/vendas');
+    return response.data;
+  },
+
+  // 🔹 RESUMO (RELATÓRIO)
+  resumo: async () => {
+    const response = await api.get('/vendas/resumo');
+    return response.data;
+  },
+
+  // 🔹 CADASTRAR
+  cadastrar: async (vendaData) => {
+    const response = await api.post('/vendas', vendaData);
+    return response.data;
+  },
+
+  // 🔹 BUSCAR POR ID
+  buscarPorId: async (id) => {
+    const response = await api.get(`/vendas/${id}`);
+    return response.data;
+  },
+
+  // 🔹 DELETAR
+  deletar: async (id) => {
+    const response = await api.delete(`/vendas/${id}`);
+    return response.data;
+  }
+
+};
+
 
 // ============================================
 // SERVIÇOS DE USUÁRIO
