@@ -38,12 +38,12 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-     let newValue = value;
+    let newValue = value;
 
-      if (name === 'cpf') {
-        newValue = value.replace(/\D/g, '');
-        newValue = newValue.slice(0, 11);
-      }
+    if (name === 'cpf') {
+      newValue = value.replace(/\D/g, '');
+      newValue = newValue.slice(0, 11);
+    }
 
     setFormData(prev => ({
       ...prev,
@@ -53,7 +53,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.nome || !formData.cpf) {
       alert('Por favor, preencha os campos obrigatórios');
       return;
@@ -124,6 +124,19 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
     });
     setEditingId(null);
     setShowForm(false);
+  };
+  const handleToggleStatus = async (cliente) => {
+
+    if (window.confirm('Deseja alterar o status deste cliente?')) {
+
+      const result = await clienteService.alterarStatus(cliente.id);
+
+      if (result.success) {
+        loadClientes();
+      } else {
+        alert(result.message);
+      }
+    }
   };
 
   return (
@@ -286,18 +299,32 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
                   <th>CPF</th>
                   <th>Telefone</th>
                   <th>Cidade</th>
+                  <th>Status</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {clientes.map(cliente => (
-                  <tr key={cliente.id}>
+                  <tr
+                    key={cliente.id}
+                    style={{
+                      opacity: cliente.ativo ? 1 : 0.5,
+                      backgroundColor: cliente.ativo ? 'transparent' : '#f2f2f2'
+                    }}
+                  >
                     <td>{cliente.nome}</td>
                     <td>{cliente.cpf}</td>
                     <td>{cliente.telefone || '-'}</td>
                     <td>{cliente.cidade || '-'}</td>
+                    <td>{cliente.ativo ? 'Ativo' : 'Inativo'}</td>
                     <td>
                       <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                          onClick={() => handleToggleStatus(cliente)}
+                          className={`btn btn-sm ${cliente.ativo ? 'btn-warning' : 'btn-success'}`}
+                        >
+                          {cliente.ativo ? '🚫 Desativar' : '✅ Ativar'}
+                        </button>
                         <button
                           onClick={() => handleEdit(cliente)}
                           className="btn btn-secondary btn-sm"

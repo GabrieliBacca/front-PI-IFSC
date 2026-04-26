@@ -200,7 +200,17 @@ export const clienteService = {
         message: error.response?.data?.message || 'Erro ao deletar cliente.'
       };
     }
+  },
+
+   alterarStatus: async (id) => {
+    try {
+      const response = await api.put(`/cliente/${id}/status`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      return { success: false, message: 'Erro ao alterar status.' };
+    }
   }
+
 };
 
 // ============================================
@@ -354,7 +364,22 @@ export const produtoService = {
         message: error.response?.data?.message || 'Erro ao cadastrar marca.'
       };
     }
+  },
+  ativarDesativar: async (id, ativo) => {
+  try {
+    const response = await api.put(`/produto/ativacao/${id}?ativo=${ativo}`);
+    return {
+      success: true,
+      data: response.data,
+      message: 'Status atualizado com sucesso!'
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || 'Erro ao alterar status.'
+    };
   }
+}
 };
 
 export default api;
