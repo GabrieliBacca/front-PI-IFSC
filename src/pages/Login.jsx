@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usuarioService } from '../services/api';
 import '../index.css';
 
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const from = location.state?.from?.pathname || '/';
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,8 +26,8 @@ const Login = ({ onLoginSuccess }) => {
     const result = await usuarioService.login(cpf, senha);
     
     if (result.success) {
-      onLoginSuccess(result.data.token);
-      navigate('/');
+      console.log('LOGIN OK');
+      navigate(from);
     } else {
       setError(result.message);
     }

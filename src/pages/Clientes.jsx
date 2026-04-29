@@ -129,7 +129,7 @@ const Clientes = ({ userName, userEmail, onLogout }) => {
 
     if (window.confirm('Deseja alterar o status deste cliente?')) {
 
-      const result = await clienteService.alterarStatus(cliente.id);
+      const result = await clienteService.alterarStatus(cliente.id, !cliente.ativo);
 
       if (result.success) {
         loadClientes();

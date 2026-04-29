@@ -35,19 +35,17 @@ export const removeAuthToken = () => {
 };
 
 // Interceptor para incluir o token JWT em todas as requisições
-api.interceptors.request.use(
-  (config) => {
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
 
-    const token = getAuthToken();
-    if (token && config.url !== '/usuario/logar') {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+  if (!config.skipAuth && token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-);
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 // Interceptor para tratar respostas
 api.interceptors.response.use(
@@ -108,7 +106,11 @@ export const vendaService = {
 export const usuarioService = {
   login: async (cpf, senha) => {
     try {
-      const response = await api.post('/usuario/logar', { cpf, senha });
+      const response = await api.post(
+          '/usuario/logar',
+          { cpf, senha },
+          { skipAuth: true }
+      );
       const token = response.data;
       setAuthToken(token);
       return {
@@ -120,6 +122,23 @@ export const usuarioService = {
       return {
         success: false,
         message: error.response?.data?.message || 'CPF ou senha incorretos.'
+      };
+    }
+  },
+
+  validarToken: async (token) => {
+    try {
+      const response = await api.post('/usuario/valida-login', {
+        token: token
+      });
+
+      return {
+        valid: true,
+        user: response.data
+      };
+    } catch (error) {
+      return {
+        valid: false
       };
     }
   },
@@ -240,9 +259,14 @@ export const clienteService = {
     }
   },
 
-   alterarStatus: async (id) => {
+   alterarStatus: async (id, novoStatus) => {
+
     try {
-      const response = await api.put(`/cliente/${id}/status`);
+      const response = await api.put(`/cliente/ativacao/${id}`, null, {
+        params: {
+          ativo: novoStatus
+        }
+      });
       return { success: true, data: response.data };
     } catch (error) {
       return { success: false, message: 'Erro ao alterar status.' };
