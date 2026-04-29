@@ -4,6 +4,8 @@ import { usuarioService } from './services/api';
 
 function App() {
     const [loading, setLoading] = useState(true);
+    const [userName, setUserName] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -14,6 +16,9 @@ function App() {
 
                 if (!result.valid) {
                     localStorage.removeItem('authToken');
+                } else {
+                    setUserName(result.user.nome);
+                    setUserEmail(result.user.email);
                 }
             }
 
@@ -27,7 +32,7 @@ function App() {
         return <div>Carregando...</div>;
     }
 
-    return <AppRoutes />;
+    return <AppRoutes userName={userName} userEmail={userEmail} />;
 }
 
 export default App;

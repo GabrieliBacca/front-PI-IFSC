@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Login from '../pages/Login';
 
 // Configuração base da API
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -112,7 +113,9 @@ export const usuarioService = {
           { skipAuth: true }
       );
       const token = response.data;
+
       setAuthToken(token);
+
       return {
         success: true,
         data: { token },
@@ -128,9 +131,7 @@ export const usuarioService = {
 
   validarToken: async (token) => {
     try {
-      const response = await api.post('/usuario/valida-login', {
-        token: token
-      });
+      const response = await api.post('/usuario/valida-login');
 
       return {
         valid: true,

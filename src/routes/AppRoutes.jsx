@@ -1,9 +1,17 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from '../pages/Login';
 import PrivateRoute from './PrivateRoute';
 import { routes } from './RoutesConfig';
+import { usuarioService } from '../services/api';
 
-export default function AppRoutes() {
+export default function AppRoutes({userName, userEmail}) {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await usuarioService.logout();
+        navigate('/login');
+    };
+
     return (
         <Routes>
 
@@ -18,7 +26,7 @@ export default function AppRoutes() {
                         <Route
                             key={index}
                             path={route.path}
-                            element={<Component />}
+                            element={<Component userName={userName} userEmail={userEmail} onLogout={handleLogout} /> }
                         />
                     );
                 })}
