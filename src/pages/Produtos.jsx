@@ -16,6 +16,11 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
   });
   const [marcas, setMarcas] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  
+  const [showMarcaModal, setShowMarcaModal] = useState(false);
+  const [showCategoriaModal, setShowCategoriaModal] = useState(false);
+  const [novaMarca, setNovaMarca] = useState('');
+  const [novaCategoria, setNovaCategoria] = useState('');
 
   useEffect(() => {
     loadProdutos();
@@ -94,7 +99,6 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
     }
   };
 
-
   const handleEdit = (produto) => {
     setFormData({
       titulo: produto.titulo,
@@ -124,11 +128,9 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
   };
 
   const handleToggleStatus = async (produto) => {
-
     const novoStatus = !produto.ativo;
 
     if (window.confirm('Deseja alterar o status deste produto?')) {
-
       const result = await produtoService.ativarDesativar(produto.id, novoStatus);
 
       if (result.success) {
@@ -139,6 +141,40 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
     }
   };
 
+  // ✅ NOVAS FUNÇÕES PARA SALVAR MARCA E CATEGORIA
+  const handleSalvarMarca = async () => {
+    if (!novaMarca.trim()) {
+      alert('Digite o nome da marca');
+      return;
+    }
+    const result = await produtoService.cadastrarMarca(novaMarca);
+    if (result.success) {
+      setNovaMarca('');
+      setShowMarcaModal(false);
+      loadMarcasAndCategorias(); // Recarrega a lista
+      alert('Marca cadastrada com sucesso!');
+    } else {
+      alert(result.message || 'Erro ao cadastrar marca');
+    }
+  };
+
+  const handleSalvarCategoria = async () => {
+    if (!novaCategoria.trim()) {
+      alert('Digite o nome da categoria');
+      return;
+    }
+    const result = await produtoService.cadastrarCategoria(novaCategoria);
+    if (result.success) {
+      setNovaCategoria('');
+      setShowCategoriaModal(false);
+      loadMarcasAndCategorias(); // Recarrega a lista
+      alert('Categoria cadastrada com sucesso!');
+    } else {
+      alert(result.message || 'Erro ao cadastrar categoria');
+    }
+  };
+
+  // ============ RETORNO JSX ============
   return (
     <Layout
       userName={userName}
@@ -194,38 +230,62 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
                 />
               </div>
 
+              {/* ✅ CAMPO MARCA COM BOTÃO */}
               <div className="form-group">
                 <label className="form-label">Marca</label>
-                <select
-                  name="marca"
-                  className="form-input"
-                  value={formData.marca}
-                  onChange={handleChange}
-                >
-                  <option value="">Selecione uma marca</option>
-                  {marcas.map(marca => (
-                    <option key={marca.id} value={marca.id}>
-                      {marca.marca}
-                    </option>
-                  ))}
-                </select>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <select
+                    name="marca"
+                    className="form-input"
+                    value={formData.marca}
+                    onChange={handleChange}
+                    style={{ flex: 1 }}
+                  >
+                    <option value="">Selecione uma marca</option>
+                    {marcas.map(marca => (
+                      <option key={marca.id} value={marca.id}>
+                        {marca.marca}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setShowMarcaModal(true)}
+                    className="btn btn-secondary"
+                    style={{ padding: '8px 12px', whiteSpace: 'nowrap' }}
+                  >
+                    ➕ Nova
+                  </button>
+                </div>
               </div>
 
+              {/* ✅ CAMPO CATEGORIA COM BOTÃO */}
               <div className="form-group">
                 <label className="form-label">Categoria</label>
-                <select
-                  name="categoria"
-                  className="form-input"
-                  value={formData.categoria}
-                  onChange={handleChange}
-                >
-                  <option value="">Selecione uma categoria</option>
-                  {categorias.map(categoria => (
-                    <option key={categoria.id} value={categoria.id}>
-                      {categoria.categoria}
-                    </option>
-                  ))}
-                </select>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <select
+                    name="categoria"
+                    className="form-input"
+                    value={formData.categoria}
+                    onChange={handleChange}
+                    style={{ flex: 1 }}
+                  >
+                    <option value="">Selecione uma categoria</option>
+                    {categorias.map(categoria => (
+                      <option key={categoria.id} value={categoria.id}>
+                        {categoria.categoria}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setShowCategoriaModal(true)}
+                    className="btn btn-secondary"
+                    style={{ padding: '8px 12px', whiteSpace: 'nowrap' }}
+                  >
+                    ➕ Nova
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -314,6 +374,94 @@ const Produtos = ({ userName, userEmail, onLogout }) => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ MODAIS NO FINAL, DENTRO DO LAYOUT */}
+
+      {/* MODAL DE MARCA */}
+      {showMarcaModal && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            maxWidth: '400px',
+            width: '90%'
+          }}>
+            <h3 style={{ marginBottom: '20px', color: '#333' }}>Nova Marca</h3>
+            <input
+              type="text"
+              placeholder="Nome da marca"
+              value={novaMarca}
+              onChange={(e) => setNovaMarca(e.target.value)}
+              className="form-input"
+              style={{ marginBottom: '20px' }}
+            />
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={handleSalvarMarca} className="btn btn-primary" style={{ flex: 1 }}>
+                ✅ Salvar
+              </button>
+              <button onClick={() => setShowMarcaModal(false)} className="btn btn-secondary" style={{ flex: 1 }}>
+                ❌ Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CATEGORIA */}
+      {showCategoriaModal && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            maxWidth: '400px',
+            width: '90%'
+          }}>
+            <h3 style={{ marginBottom: '20px', color: '#333' }}>Nova Categoria</h3>
+            <input
+              type="text"
+              placeholder="Nome da categoria"
+              value={novaCategoria}
+              onChange={(e) => setNovaCategoria(e.target.value)}
+              className="form-input"
+              style={{ marginBottom: '20px' }}
+            />
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={handleSalvarCategoria} className="btn btn-primary" style={{ flex: 1 }}>
+                ✅ Salvar
+              </button>
+              <button onClick={() => setShowCategoriaModal(false)} className="btn btn-secondary" style={{ flex: 1 }}>
+                ❌ Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { vendaService } from "../services/api";
 import './relatorios.css';
 
 export default function Relatorios() {
+  const navigate = useNavigate();
 
   const hoje = new Date().toISOString().split('T')[0];
 
@@ -176,6 +178,15 @@ export default function Relatorios() {
 
   return (
       <div className="relatorios-container">
+        <div style={{ marginBottom: '20px' }}>
+          <button 
+            onClick={() => navigate(-1)}
+            className="btn btn-secondary"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+          Voltar
+          </button>
+        </div>
 
         <div className="relatorios-header">
           <h1>📊 Relatório de Vendas</h1>
